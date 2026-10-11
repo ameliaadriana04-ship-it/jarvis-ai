@@ -1,0 +1,38 @@
+name: Build JARVIS AI APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+
+      - name: Extract project
+        run: |
+          unzip JARVIS_AI_Android_Full_Project.zip -d project
+
+      - name: Build APK
+        run: |
+          cd project/JARVIS_AI_Android
+          gradle assembleDebug
+
+      - name: Save APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: JARVIS-AI-APK
+          path: project/JARVIS_AI_Android/app/build/outputs/apk/debug/app-debug.apk
