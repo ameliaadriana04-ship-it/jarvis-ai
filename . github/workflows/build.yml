@@ -1,6 +1,9 @@
 name: Build JARVIS AI APK
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
